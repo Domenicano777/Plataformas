@@ -6,12 +6,18 @@ public class Player : MonoBehaviour
 {
     [Header("Movimiento")]
     public float speed;
+    public float jumpForce = 10f; 
+    public Rigidbody2D rb;
+    public bool imJumping = false;
 
     [Header("Deteccion de suelo")]
     [Range(0f, 2f)]
     public float raycastDistance;
     public LayerMask layerMask;
     public bool grounded;
+
+    [Header("Partida")]
+    public int hits;
 
     public List<Vector2> points;
     private void FixedUpdate()
@@ -27,7 +33,22 @@ public class Player : MonoBehaviour
             if (hit.collider != null)
             {
                 grounded = true;
+                imJumping = false;
             }
+        }
+
+        if (grounded == true && Input.GetAxis("Jump") > 0)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            imJumping = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
