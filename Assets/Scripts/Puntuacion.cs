@@ -6,21 +6,20 @@ using UnityEngine;
 public class Puntuacion : MonoBehaviour
 {
     public int coins;
+    public int lives;
     public bool iHaveAllCoins = false;
 
     public TMP_Text coinsText;
-
-    public GameObject victoria;
-    public GameObject derrota;
-
-    private void Start()
-    {
-        victoria.SetActive(false);
-        derrota.SetActive(false); ;
-    }
+    public TMP_Text livesText;
 
     private void Update()
     {
         coinsText.text = coins.ToString();
+        livesText.text = lives.ToString();
+
+        if (coins == 5)
+        {
+            iHaveAllCoins = true;
+        }
     }
 }
